@@ -39,4 +39,12 @@ module.exports = [
       policies: ['admin::isAuthenticatedAdmin'],
     },
   },
+  {
+    method: 'POST',
+    path: '/process-migration/:slug/:id',
+    handler: 'migrationController.processMigration',
+    config: {
+      policies: [],
+    },
+  },
 ];

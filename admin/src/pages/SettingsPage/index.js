@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect, useState, useCallback, useMemo } from "react";
+import React, { memo, useEffect, useState, useCallback, useMemo } from 'react';
 
 import {
   Typography,
@@ -18,14 +18,16 @@ import {
   ContentLayout,
   TextInput,
   Button,
-} from "@strapi/design-system";
-import Information from "@strapi/icons/Information";
-import { request } from "@strapi/helper-plugin";
-import axiosInstance from "../../utils/axiosInstance";
+} from '@strapi/design-system';
+import Information from '@strapi/icons/Information';
+import { request } from '@strapi/helper-plugin';
+import axiosInstance from '../../utils/axiosInstance';
 
+// TODO: Add translations
+// NTH: maybe better file structure
 const useSettings = () => {
   const [settings, setSettings] = useState(null);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
   useEffect(() => {
     if (settings?.destinationURL) {
       setUrl(settings?.destinationURL);
@@ -33,7 +35,7 @@ const useSettings = () => {
   }, [settings]);
 
   useEffect(() => {
-    request("/migration-plugin/get-settings")
+    request('/migration-plugin/get-settings')
       .then((res) => setSettings(res))
       .catch((_e) => setSettings(null));
   }, []);
@@ -53,7 +55,7 @@ const useSettings = () => {
         destinationURL,
       })
       .then(({ data }) => setUrl(data.destinationURL))
-      .catch((_e) => setUrl(""));
+      .catch((_e) => setUrl(''));
   }, []);
 
   return { settings, toggleSettings, updateURL, url };
@@ -73,19 +75,19 @@ const CustomToggle = (props) => {
     <ToggleInput
       hint={`Enable migration for ${props.singularName}`}
       label={props.singularName}
-      name="enable-provider"
-      onLabel="on"
-      offLabel="off"
+      name='enable-provider'
+      onLabel='on'
+      offLabel='off'
       checked={checked}
       onChange={toggle}
       labelAction={
         <Tooltip description={`Enable migration for ${props.singularName}`}>
           <button
-            aria-label="Information about the email"
+            aria-label='Information about the email'
             style={{
-              border: "none",
+              border: 'none',
               padding: 0,
-              background: "transparent",
+              background: 'transparent',
             }}
           >
             <Information aria-hidden={true} />
@@ -96,18 +98,18 @@ const CustomToggle = (props) => {
   );
 };
 const urlRegex = new RegExp(
-  "(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,})"
+  '(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,})'
 );
 
 const CustomInput = (props) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [content, setContent] = useState(props?.destinationURL || "");
+  const [content, setContent] = useState(props?.destinationURL || '');
 
   const error = useMemo(() => {
     if (content.length === 0) {
-      return "This needs to be filled";
+      return 'This needs to be filled';
     }
-    return !content.match(urlRegex) ? "This is not URL!" : undefined;
+    return !content.match(urlRegex) ? 'This is not URL!' : undefined;
   }, [content]);
 
   const onEdit = () => {
@@ -126,20 +128,20 @@ const CustomInput = (props) => {
       <TextInput
         disabled={!isEditing}
         style={{ width: 400 }}
-        label="Destination URL:"
-        name="content"
-        hint="URL Where you want to migrate your contents"
+        label='Destination URL:'
+        name='content'
+        hint='URL Where you want to migrate your contents'
         error={error}
         onChange={(e) => setContent(e.target.value)}
         value={content}
         labelAction={
-          <Tooltip description="Content of the tooltip">
+          <Tooltip description='Content of the tooltip'>
             <button
-              aria-label="Information about the email"
+              aria-label='Information about the email'
               style={{
-                border: "none",
+                border: 'none',
                 padding: 0,
-                background: "transparent",
+                background: 'transparent',
               }}
             >
               <Information aria-hidden={true} />
@@ -147,7 +149,7 @@ const CustomInput = (props) => {
           </Tooltip>
         }
       />
-      <Button onClick={onEdit}>{isEditing ? "Save" : "Edit"}</Button>
+      <Button onClick={onEdit}>{isEditing ? 'Save' : 'Edit'}</Button>
     </Flex>
   );
 };
@@ -156,33 +158,24 @@ const SettingsPage = () => {
   const { settings, toggleSettings, updateURL } = useSettings();
 
   return (
-    <Box background="neutral100">
+    <Box background='neutral100'>
       <Layout>
-        <BaseHeaderLayout title="Migration plugin - Settings" as="h2" />
+        <BaseHeaderLayout title='Migration plugin - Settings' as='h2' />
 
         <ContentLayout>
-          <Flex background="neutral100">
+          <Flex background='neutral100'>
             {!settings?.contentTypes ? (
               <div style={{ width: 500 }}>
-                <Box background="danger500" padding={5}>
+                <Box background='danger500' padding={5}>
                   <Typography>No Content Types Found!</Typography>
                 </Box>
               </div>
             ) : (
-              <Flex direction="column" alignItems="start">
-                <CustomInput
-                  destinationURL={settings.destinationURL}
-                  updateURL={updateURL}
-                />
-                <Typography style={{ marginTop: 10 }}>
-                  Content Types:
-                </Typography>
+              <Flex direction='column' alignItems='start'>
+                <CustomInput destinationURL={settings.destinationURL} updateURL={updateURL} />
+                <Typography style={{ marginTop: 10 }}>Content Types:</Typography>
                 {settings.contentTypes.map((type) => (
-                  <Card
-                    padding={4}
-                    style={{ width: 400, margin: "10px 0" }}
-                    key={type.id}
-                  >
+                  <Card padding={4} style={{ width: 400, margin: '10px 0' }} key={type.id}>
                     <CustomToggle {...type} toggleSettings={toggleSettings} />
                   </Card>
                 ))}

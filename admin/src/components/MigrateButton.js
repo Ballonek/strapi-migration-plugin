@@ -1,7 +1,6 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Box, Typography, Divider } from '@strapi/design-system';
-
-import { useCMEditViewDataManager, useNotification, request } from '@strapi/helper-plugin';
+import { useCMEditViewDataManager, request } from '@strapi/helper-plugin';
 
 import axiosInstance from '../utils/axiosInstance';
 
@@ -22,6 +21,7 @@ const useMigrationButton = (slug) => {
 export default function MigrateButton() {
   const { initialData, slug, modifiedData, isCreatingEntry } = useCMEditViewDataManager();
   const isMigrationEnabled = useMigrationButton(slug);
+  // TODO: add notifications
   //   const toggleNotification = useNotification();
 
   if (!isMigrationEnabled) {
@@ -35,6 +35,8 @@ export default function MigrateButton() {
       .catch((e) => console.log(e));
   };
 
+  // TODO: add translations
+  // TODO: add new texts
   return (
     <Box
       as='aside'
