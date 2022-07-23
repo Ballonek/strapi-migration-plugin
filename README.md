@@ -12,3 +12,4 @@ TODO:
 - [ ] create backup logic
 - [ ] Destination URL check on url input
 - [ ] Fix bug in createOrUpdate witch appears when ContentType uid is api::page.page
+- [ ] NTH: 2 modes - source and destination
